@@ -217,22 +217,58 @@
         });
       }
 
+      // HSL → RGB（避免 p5.js 不支援 CSS hsla 字串）
+      function hslToRgb(h, s, l) {
+        s /= 100; l /= 100;
+        const k = n => (n + h / 30) % 12;
+        const a = s * Math.min(l, 1 - l);
+        const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+        return [Math.round(f(0)*255), Math.round(f(8)*255), Math.round(f(4)*255)];
+      }
+
       function drawSciFiSkeleton(hand, gx, gy) {
-        stroke(red(mainColor), green(mainColor), blue(mainColor), 80);
         let connections = handPose.getConnections();
         for (let i = 0; i < connections.length; i++) {
           let a = connections[i][0], b = connections[i][1];
-          line(map(hand.keypoints[a].x, 0, 640, 0, width) + gx, map(hand.keypoints[a].y, 0, 480, 0, height) + gy,
-               map(hand.keypoints[b].x, 0, 640, 0, width) + gx, map(hand.keypoints[b].y, 0, 480, 0, height) + gy);
+          let ax = map(hand.keypoints[a].x, 0, 640, 0, width) + gx;
+          let ay = map(hand.keypoints[a].y, 0, 480, 0, height) + gy;
+          let bx = map(hand.keypoints[b].x, 0, 640, 0, width) + gx;
+          let by = map(hand.keypoints[b].y, 0, 480, 0, height) + gy;
+          // 彩虹漸層：每條線走不同色相
+          let hue = (i / connections.length) * 360;
+          let [r, g, b2] = hslToRgb(hue, 100, 68);
+          stroke(r, g, b2, 210);
+          strokeWeight(1.8);
+          line(ax, ay, bx, by);
         }
       }
 
       function drawFingertips(hand, gx, gy) {
-        [4, 8, 12, 16, 20].forEach(idx => {
+        // 五個指尖各自夢幻粉彩色
+        let tipColors = [
+          color(255, 120, 200),   // 拇指  - 玫瑰粉
+          color(120, 220, 255),   // 食指  - 天藍
+          color(160, 255, 180),   // 中指  - 薄荷綠
+          color(255, 210, 100),   // 無名  - 香檳金
+          color(210, 150, 255),   // 小指  - 薰衣草紫
+        ];
+        [4, 8, 12, 16, 20].forEach((idx, ti) => {
           let k = hand.keypoints[idx];
-          let x = map(k.x, 0, 640, 0, width) + gx, y = map(k.y, 0, 480, 0, height) + gy;
-          noFill(); stroke(255, 180); circle(x, y, 12);
-          fill(255, 150); textSize(9); text(`ID:${idx}`, x+15, y-10);
+          let x = map(k.x, 0, 640, 0, width) + gx;
+          let y = map(k.y, 0, 480, 0, height) + gy;
+          let c = tipColors[ti];
+          // 外暈圈（半透明）
+          noFill(); stroke(red(c), green(c), blue(c), 80);
+          strokeWeight(1);
+          circle(x, y, 28 + sin(frameCount * 6 + ti) * 4);
+          // 實芯小圓
+          fill(c); noStroke();
+          circle(x, y, 10);
+          // 白色內芯
+          fill(255, 220); circle(x, y, 4);
+          // 標籤
+          fill(c); noStroke(); textSize(9);
+          text(`ID:${idx}`, x + 15, y - 10);
         });
       }
 
