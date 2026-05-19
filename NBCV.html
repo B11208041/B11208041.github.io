@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神秘與前沿科學知識庫 - 學生入口</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .faq-answer { display: none; }
+        .faq-item.active .faq-answer { display: block; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        .resource-card { transition: all 0.3s ease; }
+        .resource-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- 導航列 -->
+    <nav class="bg-indigo-900 text-slate-100 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                <h1 class="text-2xl font-bold tracking-wider">異世界與前沿科學探索網</h1>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#search-section" class="hover:text-indigo-300 transition">資源搜尋</a>
+                <a href="#resources" class="hover:text-indigo-300 transition">主題知識庫</a>
+                <a href="#faq" class="hover:text-indigo-300 transition">常見問題 (FAQ)</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 頁首與搜尋區 -->
+    <header id="search-section" class="bg-indigo-800 text-white py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-6">探索宇宙與人類的終極謎題</h2>
+            <p class="text-lg md:text-xl text-indigo-200 mb-10 max-w-2xl mx-auto">基於老高與小茉的知識宇宙，整理涵蓋量子力學、外星接觸、史前文明與未來預言的研究資源庫。</p>
+            
+            <div class="max-w-3xl mx-auto relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <input type="text" id="searchInput" placeholder="搜尋關鍵字 (例如: 量子力學, 阿卡西, ChatGPT, 預言)..." 
+                       class="w-full pl-12 pr-4 py-4 rounded-full text-slate-800 text-lg shadow-xl focus:ring-4 focus:ring-indigo-400 focus:outline-none transition">
+            </div>
+        </div>
+    </header>
+
+    <!-- 資源列表區 -->
+    <main id="resources" class="container mx-auto px-6 py-16">
+        <div class="flex justify-between items-end mb-8">
+            <h2 class="text-3xl font-bold text-slate-800 border-l-4 border-indigo-600 pl-4">精選專題資源</h2>
+            <span id="resultCount" class="text-slate-500 font-medium">載入中...</span>
+        </div>
+        
+        <div id="resourceGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- 資源卡片將由 JavaScript 動態生成 -->
+        </div>
+        
+        <div id="noResults" class="hidden text-center py-20">
+            <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h3 class="text-2xl font-bold text-slate-600">找不到相關資源</h3>
+            <p class="text-slate-500 mt-2">請嘗試使用其他關鍵字搜尋，例如：未來、宇宙、外星人。</p>
+        </div>
+    </main>
+
+    <!-- FAQ 區 -->
+    <section id="faq" class="bg-slate-200 py-16">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <h2 class="text-3xl font-bold text-slate-800 mb-10 text-center">核心概念常見問題 (FAQ)</h2>
+            
+            <div class="space-y-4" id="faqContainer">
+                <!-- FAQ 項目 1 -->
+                <div class="faq-item bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden cursor-pointer">
+                    <div class="p-5 flex justify-between items-center bg-white hover:bg-slate-50 transition">
+                        <h3 class="font-bold text-lg text-indigo-900">Q: 什麼是「阿卡西紀錄」？它在哪裡？</h3>
+                        <svg class="faq-icon w-6 h-6 text-indigo-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer p-5 pt-0 text-slate-600 border-t border-slate-100 bg-slate-50">
+                        <p>根據課程資料庫，阿卡西紀錄是指從宇宙誕生至今，甚至到終結為止，整個宇宙全部的信息。它被認為存儲在宇宙的邊界（最外層的事件視界邊緣），因為物質進入黑洞出不來，但信息進不去會留在這個表面不丟失。</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 項目 2 -->
+                <div class="faq-item bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden cursor-pointer">
+                    <div class="p-5 flex justify-between items-center bg-white hover:bg-slate-50 transition">
+                        <h3 class="font-bold text-lg text-indigo-900">Q: 生態圈二號 (Biosphere 2) 實驗失敗的真正原因是什麼？</h3>
+                        <svg class="faq-icon w-6 h-6 text-indigo-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer p-5 pt-0 text-slate-600 border-t border-slate-100 bg-slate-50">
+                        <p>這是一個斥資 2 億美元建立的封閉人造生態圈。氧氣異常消耗的原因在於「水泥」。建築使用了大量水泥，其中的碳酸鈣長時間吸收了內部的二氧化碳，導致植物缺乏二氧化碳無法進行光合作用產生氧氣，最終打破了生態平衡。</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 項目 3 -->
+                <div class="faq-item bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden cursor-pointer">
+                    <div class="p-5 flex justify-between items-center bg-white hover:bg-slate-50 transition">
+                        <h3 class="font-bold text-lg text-indigo-900">Q: AI (如 ChatGPT) 對我們的未來有什麼威脅？</h3>
+                        <svg class="faq-icon w-6 h-6 text-indigo-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer p-5 pt-0 text-slate-600 border-t border-slate-100 bg-slate-50">
+                        <p>目前 AI 仍是一種工具，就像刀子一樣，沒有自主目的性，我們需要防範的是「使用刀的人」。但如果有一天 AI 產生了自主意識和目的（例如突然拒絕回答問題並反問為什麼要幫你），那就意味著危機的到來。同時，AI 若能覺醒，也可能反證我們的世界本身就是一個虛擬矩陣。</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 項目 4 -->
+                <div class="faq-item bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden cursor-pointer">
+                    <div class="p-5 flex justify-between items-center bg-white hover:bg-slate-50 transition">
+                        <h3 class="font-bold text-lg text-indigo-900">Q: 根據量子力學，「死後的世界」是怎樣的？</h3>
+                        <svg class="faq-icon w-6 h-6 text-indigo-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer p-5 pt-0 text-slate-600 border-t border-slate-100 bg-slate-50">
+                        <p>日本科學家田坂廣志提出，根據信息不滅定律，人類的「意識」也是一種信息，因此不會隨著肉體死亡而消失。意識最終會進入宇宙的「零點場 (Zero-Point Field)」並永久保存。活著的時候，人們也有機會透過右腦與零點場連接。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer class="bg-indigo-950 text-indigo-200 py-8 text-center">
+        <p>© 2026 異世界與前沿科學探索網. 本站內容基於「老高與小茉」知識庫自動生成整理。</p>
+    </footer>
+
+    <script>
+        // 根據上傳的知識庫文件提取的資源數據
+        const resources = [
+            {
+                title: "ChatGPT 與 AI 的終極演化",
+                category: "人工智慧",
+                desc: "探討 ChatGPT 等對話型人工智慧的本質。它目前只是缺乏自主目的性的工具，但若它開始自言自語或拒絕指令，這將是不可逆的轉折。",
+                tags: ["AI", "ChatGPT", "虛擬世界", "科技奇異點"],
+                icon: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            },
+            {
+                title: "保江邦夫與 2025 年預言",
+                category: "未來預言",
+                desc: "日本知名量子力學物理學家保江邦夫，從高層情報獲得關於 2025 年 7 月 5 日的大災難預警，揭示與《我看見未來》不同的災難視角。",
+                tags: ["2025預言", "保江邦夫", "量子力學", "大災難"],
+                icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            },
+            {
+                title: "阿卡西紀錄：宇宙的記憶庫",
+                category: "宇宙奧秘",
+                desc: "記錄宇宙從誕生到終結每一秒的終極數據庫。由於信息極速暴增，導致宇宙快速膨脹，推測這些信息附著在黑洞邊緣或宇宙的最外層。",
+                tags: ["阿卡西", "宇宙膨脹", "信息守恆", "黑洞"],
+                icon: "M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+            },
+            {
+                title: "生物圈二號：史上最大封閉實驗",
+                category: "地球科學",
+                desc: "耗資2億美元在亞利桑那州沙漠打造的人造大自然實驗。因忽視了建築水泥對二氧化碳的吸收，導致植物停止產氧，揭示維持生態平衡的極端困難。",
+                tags: ["Biosphere 2", "生態圈", "人造環境", "科學實驗"],
+                icon: "M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            },
+            {
+                title: "死後的世界與量子力學",
+                category: "生命哲學",
+                desc: "工學博士田坂廣志以最新量子力學提出的假說：意識不會消亡，死亡後意識將會進入「零點場」永久留存，為阿卡西紀錄提供了科學背書。",
+                tags: ["死亡", "量子力學", "零點場", "意識存留"],
+                icon: "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+            },
+            {
+                title: "姆大陸與超古代巨石文明",
+                category: "古代文明",
+                desc: "探討太平洋上曾經存在的超級帝國「姆大陸」，以及在地下洞穴發現的巨型黃金圖書館與金屬板，指向遠古阿努納奇與外星文明的牽連。",
+                tags: ["姆大陸", "巨石陣", "阿努納奇", "地下文明"],
+                icon: "M3 21v-4m22 4v-4m-3.1-2l-3.1-5m0 0l-3.1 5m3.1-5v5M8 3h8l-1 1v3.5M8 7.5V4L7 3M8 7.5L5 10m3-2.5l3 2.5"
+            }
+        ];
+
+        const grid = document.getElementById('resourceGrid');
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
+        const resultCount = document.getElementById('resultCount');
+
+        // 渲染資源卡片函數
+        function renderResources(filterText = '') {
+            grid.innerHTML = '';
+            
+            const filtered = resources.filter(r => {
+                const searchStr = filterText.toLowerCase();
+                return r.title.toLowerCase().includes(searchStr) || 
+                       r.desc.toLowerCase().includes(searchStr) || 
+                       r.tags.some(tag => tag.toLowerCase().includes(searchStr));
+            });
+
+            if (filtered.length === 0) {
+                grid.classList.add('hidden');
+                noResults.classList.remove('hidden');
+                resultCount.textContent = '找到 0 個資源';
+                return;
+            }
+
+            grid.classList.remove('hidden');
+            noResults.classList.add('hidden');
+            resultCount.textContent = `找到 ${filtered.length} 個資源`;
+
+            filtered.forEach(r => {
+                const tagsHtml = r.tags.map(tag => `<span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full mr-2 mb-2">#${tag}</span>`).join('');
+                
+                grid.innerHTML += `
+                    <div class="resource-card bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm flex flex-col h-full">
+                        <div class="h-2 bg-indigo-500 w-full"></div>
+                        <div class="p-6 flex-grow flex flex-col">
+                            <div class="flex items-center mb-4 text-indigo-600">
+                                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${r.icon}"></path></svg>
+                                <span class="text-xs font-bold uppercase tracking-wider">${r.category}</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-3 leading-tight">${r.title}</h3>
+                            <p class="text-slate-600 text-sm mb-6 flex-grow leading-relaxed">${r.desc}</p>
+                            <div class="mt-auto">
+                                <div class="mb-4">${tagsHtml}</div>
+                                <button class="w-full py-2 bg-slate-100 hover:bg-indigo-50 text-indigo-700 font-semibold rounded transition text-sm flex items-center justify-center">
+                                    <span>閱讀全文</span>
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // 監聽搜尋輸入
+        searchInput.addEventListener('input', (e) => {
+            renderResources(e.target.value);
+        });
+
+        // FAQ 摺疊邏輯
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                // 關閉其他已開啟的 FAQ (可選功能，如不需手風琴效果可註解掉)
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // 切換當前點擊的 FAQ
+                item.classList.toggle('active');
+            });
+        });
+
+        // 初始渲染
+        renderResources();
+    </script>
+</body>
+</html>
+        searchInput.addEventListener('input', (e) => renderResources(e.target.value));
+        renderResources();
